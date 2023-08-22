@@ -6,7 +6,7 @@ const Featured = () => {
     <div className='featured'>
         <div className='container' >
             <div className='left'>
-                <h1>Encuentra los proyectos indicados para hacer de tu idea una realidad!</h1>
+                <h1>Comparte tus ideas y aprende de los demas aquí!</h1>
                 <div className="search">
                     <div className="searchInput">
                         <img src="./img/search.png" alt="" />
