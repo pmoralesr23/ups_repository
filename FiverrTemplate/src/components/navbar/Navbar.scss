@@ -2,29 +2,28 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    background-color: #013914;
+    background: linear-gradient(to right, #000000, #272727);
     color: white;
-    transition:  0.5s all ease;
+    transition: all .5s;
     position: sticky;
     top: 0;
 
 
     &.active{
-        background-color: white;
+        background: white;
         color: black;
     }
 
     .container{
-        width: 1400px;
+        width: 90%;
         display: flex;
         justify-content: space-between;
         padding: 20px 0px;
         .logo{
             font-size: 28px;
             font-weight: bold;
-            .text{}
             .dot{
-                color: #1dbf73;
+                color: #02c4ff;
             }
         }
         .links{
@@ -98,5 +97,11 @@
         justify-content: space-between;
         font-weight: 300;
         color: gray;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .links{
+        display: none !important;
     }
 }

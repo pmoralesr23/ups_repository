@@ -34,9 +34,8 @@ const Navbar = () => {
         <div className='container'>
             <div className='logo'>
               <Link to="/" className='link'>
-                <span className='text'>MINOR CONNECTION</span>
+                <span className='text'>Code<span className='dot' >.</span>nest</span>
               </Link>
-                <span className='dot' >.</span>
             </div>
 
             <div className='links'>
