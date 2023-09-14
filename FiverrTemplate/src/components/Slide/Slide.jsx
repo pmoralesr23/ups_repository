@@ -10,15 +10,6 @@ const Slide = () => {
 
   return (
     <div className="slide-section">
-      {/* { cards. map(({ id, title, desc, img }) => ( 
-            <div className="my-slide">
-              <span className="title">{ title }</span>
-              <p className="desc">{ desc }</p>
-              <Link to="/gigs?cat=design">
-                <img src={ img } alt={ id }/>
-              </Link>
-            </div>
-          ))} */}
       <ScrollCarousel autoplay autoplaySpeed={8} speed={7} onReady={() => console.log('I am ready')}>
         {cards.map(({ id_key, title, desc, img }) => (
           <div key={id_key} className='item'>
