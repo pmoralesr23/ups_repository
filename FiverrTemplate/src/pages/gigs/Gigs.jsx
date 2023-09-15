@@ -2,7 +2,7 @@ import React from 'react'
 import "./Gigs.scss";
 import { useState } from 'react';
 import { gigs } from "../../data";
-import GigCard from "../../components/gigCart/GigCard";
+import GigCard from "../../components/gig-componets/gigCart/GigCard";
 
 
 const Gigs = () => {

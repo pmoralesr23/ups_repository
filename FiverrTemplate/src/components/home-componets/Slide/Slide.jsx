@@ -1,6 +1,6 @@
 import React from "react";
 import "./Slide.scss";
-import { cards } from '../../data';
+import { cards } from "../../../data";
 import { Link } from "react-router-dom";
 import ScrollCarousel from 'scroll-carousel-react';
 

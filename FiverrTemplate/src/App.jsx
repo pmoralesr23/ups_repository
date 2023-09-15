@@ -1,19 +1,20 @@
 import React from "react"
-import Navbar from "./components/navbar/Navbar"
 import {
   createBrowserRouter,
   RouterProvider,
   Outlet
 } from "react-router-dom";
+
+//! Shared
+import Navbar from "./shared/navbar/Navbar"
+import Footer from "./shared/footer/Footer";
+
+//? Pages
 import Home from "./pages/home/Home";
-import Footer from "./components/footer/Footer";
 import Gigs from "./pages/gigs/Gigs";
 import Gig from "./pages/gig/Gig";
-import Orders from "./pages/orders/Orders";
 import Mygigs from "./pages/myGigs/Mygigs";
 import Add from "./pages/add/Add";
-import Messages from "./pages/messages/Messages";
-import Message from "./pages/message/message";
 import "./app.scss"
 
 function App() {
@@ -47,25 +48,13 @@ function App() {
           element: <Gig/>
         },
         {
-          path:"/orders",
-          element: <Orders/>
-        },
-        {
           path:"/mygigs",
           element: <Mygigs/>
         },
         {
           path:"/add",
           element: <Add/>
-        },
-        {
-          path:"/messages",
-          element: <Messages/>
-        },
-        {
-          path:"/message/:id",
-          element: <Message/>
-        },
+        }
       ]
     },
   ]);
