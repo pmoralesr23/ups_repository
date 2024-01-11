@@ -1,4 +1,15 @@
 /package-lock.json
 /FiverrTemplate/node_modules
 /FiverrTemplate/package-lock.json
-/api/node_modules/package-lock.json
+/api/node_modules
+/api/.env
+/FiverrTemplate/.env
+
+
+package-lock.json
+FiverrTemplate/node_modules
+FiverrTemplate/package-lock.json
+api/node_modules
+api/.env
+FiverrTemplate/.env
+
