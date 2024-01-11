@@ -26,8 +26,6 @@ function Register(){
       const config = {
         bucketName: 'upsnet2',
         region: 'us-east-1',
-        accessKeyId: 'AKIAQRCVFIP2ZR7NQFPT',
-        secretAccessKey: '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',
       }
       console.log(file);
       await S3FileUpload.uploadFile(file, config)
