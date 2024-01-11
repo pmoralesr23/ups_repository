@@ -19,12 +19,13 @@ function Navbar (){
     }
   }, [])
 
+
   return (
     <div className={active || pathname !== "/" ? "navbar active" : "navbar"} >
       <div className='container'>
         <div className='logo'>
           <Link to="/" className='link'>
-            <span className='text'>Code<span className='dot' >.</span>nest</span>
+            <span className='text'>Code<span className='dot'>.</span>nest</span>
           </Link>
         </div>
 
@@ -35,7 +36,7 @@ function Navbar (){
         
       </div>
       {/* Botton menu */}
-      <Bottom_menu/>
+      {/* <Bottom_menu/> */}
     </div>
   )
 }

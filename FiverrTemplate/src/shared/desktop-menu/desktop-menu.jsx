@@ -2,31 +2,71 @@ import React from 'react';
 import "./desktop-menu.scss"
 
 //? nodeJS components
-import { Link } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
+import { UserButton, useUser  } from "@clerk/clerk-react";
+import newRequest from '../../utils/newRequest';
+
+
+
+
+async function asyncCall() {
+  console.log(user.primaryEmailAddress.emailAddress);
+  try{
+    // const res = await newRequest.post("/auth/login", {username, password});
+    const res = await newRequest.post("/auth/login", {username: "lvalenciap@est.ups.edu.ec"});
+    localStorage.setItem("currentUser",JSON.stringify(res.data)) 
+    
+    }catch(err){
+        setError(err.response.data);
+    }
+  // Expected output: "resolved"
+}
+
+// asyncCall();
+
+
+
 
 function Desktop_menu() {
 
   const [open, setOpen] = useState(false);
 
-  const currentUser = {
-    id: 1,
-    username: "Leyton Valencia",
-    isLogin: true
+
+
+  const { isLoaded, isSignedIn, user } = useUser();
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"))
+  const navigate = useNavigate()
+
+  const handleLogout = async () =>{
+    try{
+      await newRequest.post("/auth/logout")
+      localStorage.setItem("currentUser",null) 
+      navigate("/")
+    }catch (err){
+      console.log(err)
+    }
   }
+
+
+
 
   return (
     <div className='links'>
-        <span>Explore</span>
-        <span>Language</span>
-        <span>Sign in</span>
-        {!currentUser?.isLogin && <span>Become a User</span>}
-        {!currentUser && <button>Join</button>}
-        {currentUser &&
+        <a className='menu-links' href="/">Inicio</a>
+        <a className='menu-links' href="/Gigs">Publicaciones</a>
+        {!isSignedIn && <Link className='link' to="/protected"> <button  className='btn-multi-color'>Unete</button> </Link>}
+        {isSignedIn && 
         (
+            
+            <>
+          
+            <UserButton/>
             <div className='user' onClick={() => setOpen(!open)}>
-            <img src="https://images.pexels.com/photos/1115697/pexels-photo-1115697.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="" />
-            <span>{currentUser?.username}</span>
+            
+
+            {<span>{currentUser?.username}</span> }
+            <span>{(user.primaryEmailAddress.emailAddress)}</span>
             {open && <div className="options">
                 {
                 currentUser?.isLogin && (
@@ -36,15 +76,14 @@ function Desktop_menu() {
                     </>
                 )
                 }
-                <Link className='link' to="orders">Orders</Link>
-                <Link className='link' to="messages">Messages</Link>
-                <Link className='link' to="">LogOut</Link>
+                <Link className='link'to="/mygigs">Mis publicaciones</Link>
+                <Link className='link' to="messages">Mensajes</Link>
+                <Link className='link' onClick={handleLogout}>LogOut</Link>
             </div>}
             </div>
+            </>
         )
         }
-
-        <button className='btn-multi-color'>Unete</button>
     </div>
   )
 }

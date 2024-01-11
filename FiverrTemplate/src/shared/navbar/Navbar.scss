@@ -8,10 +8,20 @@
     position: sticky;
     top: 0;
 
+    .menu-links{
+        text-decoration: none;
+        color: #fff;
+        transition: all .5s;
+    }
 
     &.active{
         background: white;
         color: black;
+
+        .menu-links{
+            color: #000;
+            transition: all .5s;
+        }
 
         .btn-multi-color{
             color: black !important;
@@ -106,12 +116,12 @@
     }
 
     .menu{
-        width: 1400px;
+        width: 80%;
         padding: 10px 0px ;
         display: flex;
         justify-content: space-between;
         font-weight: 300;
-        color: gray;
+        color: #272727;
     }
 
 }
