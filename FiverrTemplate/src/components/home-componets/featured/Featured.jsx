@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import "./Featured.scss";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const pop_list = [
     { id_key: 1, name: 'Web Desing', url: 'https://www.google.com' }, 
@@ -17,6 +17,14 @@ pop_list.forEach( ({ id_key, url, name }) => {
 })
 
 const Featured = () => {
+
+    const [input, setInput] = useState("");
+    const navigate = useNavigate()
+
+    const handleSubmit = () =>{
+        navigate(`./gigs?search=${input}`)
+    }
+
   return (
     <div className='featured'>
         <div className='container' >
@@ -25,9 +33,9 @@ const Featured = () => {
                 <div className="search">
                     <div className="searchInput">
                         <img src="./img/search.png" alt="" />
-                        <input type="text" placeholder='Ej: Aplicaciones Moviles...' />
+                        <input type="text" placeholder='Ej: Aplicaciones Moviles...'  onChange={(e) => setInput(e.target.value)} />
                     </div>
-                    <button>Descrubre!</button>
+                    <button onClick={handleSubmit}>Descrubre!</button>
                 </div>
                 <div className='popular'>
                     <span>Popular:</span>
