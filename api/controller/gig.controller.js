@@ -53,7 +53,10 @@ export const getGigs = async(req,res, next) =>{
     const filters = {
       ...(q.userId && { userId: q.userId }),
       ...(q.cat && { cat: q.cat }),
+      ...(q.level && { level: q.level }),
+      ...(q.tools && { tools: { $in: q.tools } }),
       ...(q.search && { title: { $regex: q.search, $options: "i" } }),
+
     };
 
     try{

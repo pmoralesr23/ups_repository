@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv"
 import mongoose from "mongoose";
+import bodyParser from 'body-parser';
 
 import userRoute from "./routes/user.route.js";
 import gigRoute from "./routes/gig.route.js"
@@ -29,9 +30,12 @@ const app = express()
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({ extended: true }));
 app.use("/api/auth",authRoute)
 app.use("/api/users",userRoute)
 app.use("/api/gigs",gigRoute)
+app.use('/', gigRoute);
 app.use("/api/reviews",reviewRoute)
 app.use((err,req,res, next) => {
     const errorStatus = err.status || 500

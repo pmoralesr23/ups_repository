@@ -6,7 +6,8 @@ import {
     getGigs,
     updateGigPrivacy
 } from "../controller/gig.controller.js"
-import {verifyToken} from "../middleware/jwt.js"
+
+import { imageController } from "../controller/image-controller.js";
 
 const router = express.Router();
 
@@ -15,5 +16,6 @@ router.delete("/:id", deleteGig);
 router.get("/single/:id", getGig);
 router.get("/",  getGigs);
 router.patch("/:id", updateGigPrivacy)
+router.get('/uploadFiles', imageController);
 
 export default router;
