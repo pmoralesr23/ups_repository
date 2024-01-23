@@ -1,7 +1,8 @@
 import React, { useReducer, useState } from "react";
+import CryptoJS from 'crypto-js';
 import "./Add.scss";
 import { gigReducer, INITIAL_STATE } from "../../reducers/gigReducer";
-
+import { UserButton, useUser  } from "@clerk/clerk-react";
 import S3FileUpload from 'react-s3';
 import { Buffer } from 'buffer';import { useMutation, useQueryClient } from "@tanstack/react-query";
 import newRequest from "../../utils/newRequest";
@@ -9,7 +10,7 @@ import { useNavigate } from "react-router-dom";
  if (!window.Buffer) {   window.Buffer = Buffer; }
 window.Buffer = window.Buffer || require("buffer").Buffer;
 
- 
+
 //Optional Import
 
 
@@ -21,6 +22,10 @@ const Add = () => {
   const [downloadFile, setDownloadFile] = useState(undefined);
   const [files, setFiles] = useState([]);
   const [uploading, setUploading] = useState(false);
+  const { isLoaded, isSignedIn, user } = useUser();
+  const [errorMessage, setErrorMessage] = useState("");
+
+ 
 
   const [state, dispatch] = useReducer(gigReducer, INITIAL_STATE)
 
@@ -30,7 +35,11 @@ const Add = () => {
         name: e.target.name,
         value: e.target.value
       },
-    })
+    }),
+    dispatch({
+      type: "ADD_USER",
+      payload: { user: user ? user.id : null }
+    });
   }
 
   const handleFeature = (e) =>{
@@ -40,54 +49,74 @@ const Add = () => {
     })
     e.target[0].value = ""
   }
-  
+
+
+  const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB en bytes
+
+
+
+
 
   const handleUpload = async () => {
     setUploading(true);
-    try {
-      const cover = await onFileUpdate(singleFile);
   
-      const file = await onFileUpdate(downloadFile);
-
+    try {
+      // Validar el tamaño del archivo antes de la carga
+      if (singleFile && singleFile.size > MAX_FILE_SIZE) {
+        setErrorMessage("El archivo de la portada supera el límite de 10 MB");
+        throw new Error("El archivo de la portada supera el límite de 10 MB");
+      }
+  
+      if (downloadFile && downloadFile.size > MAX_FILE_SIZE) {
+        setErrorMessage("El archivo de la portada supera el límite de 10 MB");
+        throw new Error("El archivo RAR o ZIP supera el límite de 10 MB");
+      }
+  
+      const cover = await uploadFile(singleFile);
+      const file = await uploadFile(downloadFile);
+  
       const images = await Promise.all(
         [...files].map(async (file) => {
-          const url = await onFileUpdate(file);
+          if (file.size > MAX_FILE_SIZE) {
+            setErrorMessage("El archivo de la portada supera el límite de 10 MB");
+            throw new Error("Uno de los archivos de imágenes supera el límite de 10 MB");
+          }
+          const url = await uploadFile(file);
           return url;
         })
       );
-
-      
   
       setUploading(false);
       dispatch({ type: "ADD_IMAGES", payload: { cover, images, file } });
     } catch (err) {
       // Manejar el error según sea necesario
-      console.error(err);
+      console.error(err.message);
     }
   };
   
-
-
-
-
-  const onFileUpdate = async (file) => {
+  const uploadFile = async (file) => {
     const config = {
-      bucketName: 'upsnet2',
-      region: 'us-east-1',
-      accessKeyId: 'AKIAQRCVFIP2ZR7NQFPT',
-      secretAccessKey: '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',
+      bucketName: import.meta.env.VITE_APP_BUCKET_AWS,
+      region: import.meta.env.VITE_APP_REGION_AWS,
+      accessKeyId: import.meta.env.VITE_APP_KEY_AWS,
+      secretAccessKey: import.meta.env.VITE_APP_SECRET_KEY_AWS,
     };
+  
     try {
       const data = await S3FileUpload.uploadFile(file, config);
       const url = data.location;
       return url;
     } catch (err) {
-      // Manejar el error según sea necesario
-      console.error(err);
+      // Si el error es causado por getSignature, puedes manejarlo específicamente
+      if (err.message && err.message.includes("getSignature")) {
+        console.error("Error en getSignature:", err);
+        // Realizar acciones adicionales si es necesario
+      } else {
+        console.error("Error al cargar el archivo:", err);
+      }
       throw err; // Propagar el error para que sea capturado por el bloque catch en handleUpload
     }
   };
-
 
   const navigate = useNavigate()
 
@@ -120,11 +149,12 @@ const Add = () => {
 
 
   console.log(state)
+  console.log(user)
   
   return (
     <div className="add">
       <div className="container">
-        <h1>Add New Gig</h1>
+        <h1>Agregar nueva publicacion!</h1>
         <div className="sections">
           <div className="info">
 
@@ -168,11 +198,13 @@ const Add = () => {
                   onChange={(e) => setDownloadFile(e.target.files[0])}
                 />
               </div>
+
+              {errorMessage && <p className="error-message">{errorMessage}</p>}
+
         
               <button onClick={handleUpload}>
                {uploading ? "uploading" : "Upload"}
               </button>
-
             </div>
 
 

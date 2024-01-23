@@ -27,9 +27,11 @@ import Add from "./pages/add/Add";
 import "./app.scss"
 import Login from "./pages/login/login";
 import Register from "./pages/register/Register";
+import UploadFiles from "./pages/uploadFiles/uploadFiles";
+
 //? Login component validation
 
-const clerkPubKey = "pk_test_d2l0dHktZmxhbWluZ28tNTEuY2xlcmsuYWNjb3VudHMuZGV2JA";
+const clerkPubKey = import.meta.env.VITE_APP_CLERK_PUBLISHABLE_KEY;
 window.Buffer = window.Buffer || require("buffer").Buffer;
 
 
@@ -42,6 +44,7 @@ import {
 
  
 function App() {
+
 
   const queryClient = new QueryClient()
 
@@ -68,10 +71,7 @@ function App() {
       path: "/",
       element: <Layout/>,
       children:[
-        {
-          path:"/",
-          element: <Home/>
-        },
+
         {
           path:"/gigs",
           element:<SignedIn>
@@ -83,8 +83,14 @@ function App() {
           element: <Register/>
         },
         {
+          path:"/uploadFiles",
+          element: <UploadFiles/>
+        },
+        {
           path:"/gig/:id",
-          element: <Gig/>
+          element:<SignedIn>
+                    <Gig/>
+                  </SignedIn>
         },
         {
           path:"/login",
@@ -92,7 +98,9 @@ function App() {
         },
         {
           path:"/mygigs",
-          element: <Mygigs/>
+          element:<SignedIn>
+                    <Mygigs/>
+                  </SignedIn>
         },
         {
           path:"/add",
@@ -108,7 +116,7 @@ function App() {
         }
         ,
         {
-          path:"/protected",
+          path:"/",
           element:  <>
           <SignedIn>
             <Home />
@@ -117,7 +125,7 @@ function App() {
             <RedirectToSignIn />
          </SignedOut>
         </>
-        }
+        },
       ]
     },
   ]);

@@ -66,8 +66,11 @@ export const Reviews = ({gigId}) => {
         reviewsInvertidas.map(review => (
             <Review key={review._id} review={review} />
         ))
-    ) : null
+    ) : (<p>!No existen comentarios aun </p>
+    )
+
 )}
+<p>!No existen comentarios aun </p>
   </div>
   )
 }

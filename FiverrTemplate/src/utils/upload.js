@@ -6,11 +6,10 @@ window.Buffer = window.Buffer || require("buffer").Buffer;
 
 const uploadFile = async(file)=>{
     const config = {
-      bucketName: 'upsnet2',
-      //dirName: 'proyectos', /* optional */
-      region: 'us-east-1',
-      accessKeyId: 'AKIAQRCVFIP2ZR7NQFPT',
-      secretAccessKey: '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',
+      bucketName: import.meta.env.VITE_APP_BUCKET_AWS,
+      region: import.meta.env.VITE_APP_REGION_AWS,
+      accessKeyId: import.meta.env.VITE_APP_KEY_AWS,
+      secretAccessKey: import.meta.env.VITE_APP_SECRET_KEY_AWS,
     }
     ///file.name = 'pre_abonos (2).txt'
     console.log(file);
@@ -24,3 +23,6 @@ const uploadFile = async(file)=>{
 
 
   export default uploadFile
+
+
+  

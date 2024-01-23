@@ -5,4 +5,11 @@ const newRequest = axios.create({
     withCredentials: true
 })
 
+// const newRequest = axios.create({
+//     baseURL: "https://ups-net.onrender.com/api/",
+//     withCredentials: true
+// })
+
 export default newRequest;
+
+

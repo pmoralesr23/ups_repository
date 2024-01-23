@@ -26,7 +26,7 @@ const Featured = () => {
     }
 
   return (
-    <div className='featured'>
+    <div className='featured' style={{backgroundImage: 'url("./img/wallpaper_star.jpg")'}}>
         <div className='container' >
             <div className='left'>
                 <h1>¡Explora, colabora e inspírate! Creemos un mundo nuevo</h1>

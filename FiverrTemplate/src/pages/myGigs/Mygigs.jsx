@@ -26,7 +26,7 @@ const {
   },
 );
 
-//console.log("data user mygig: ", dataUser)
+console.log("data user mygig: ", dataUser)
 
 
 const userId = dataUser?._id;
@@ -88,7 +88,7 @@ return (
         <div className="title">
           <h1>Mis Publicaciones</h1>
           <Link to="/add">
-            <button>Add New Gig</button>
+            <button>Agregar nueva publicacion!</button>
           </Link>
         </div>
         <table>
@@ -102,7 +102,8 @@ return (
             </tr>
           </thead>
           <tbody>
-          {data && data.map((gig) => (
+          {data && data.length > 0 ?
+          data && data.map((gig) => (
               <tr key={gig._id}>
                 <td>
                   <img className="image" src={gig.cover} alt="" />
@@ -131,7 +132,12 @@ return (
                   />
                 </td>
               </tr>
-            ))}
+            ))
+            : (
+              <tr>
+                <td colSpan="5">No hay datos disponibles</td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
