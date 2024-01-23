@@ -26,6 +26,7 @@ const app = express()
       }
 }
 
+
 app.use(cors({ origin: "https://upscodenest.cloud", credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
